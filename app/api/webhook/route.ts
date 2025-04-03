@@ -1,6 +1,6 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
-import { createUser, deleteUser } from "@/lib/actions/user.action";
+import { deleteUser } from "@/lib/actions/user.action";
 import { WebhookEvent, clerkClient } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
@@ -60,14 +60,6 @@ export async function POST(req: Request) {
     console.log("user.created event received");
     const { id, email_addresses, first_name, last_name, image_url } = evt.data;
 
-    // const client = await clerkClient();
-
-    // await client.users.updateUserMetadata(id, {
-    //   publicMetadata: {
-    //     userType: "user",
-    //   },
-    // });
-
     const client = await clerkClient();
 
     await client.users.updateUserMetadata(id, {
@@ -76,16 +68,18 @@ export async function POST(req: Request) {
       },
     });
 
-    // Create user in database
-    const mongoUser = await createUser({
-      clerkId: id,
-      firstName: `${first_name || ""}`,
-      lastName: `${last_name || ""}`,
-      email: email_addresses[0].email_address,
-      picture: image_url,
-    });
+    console.log({ email_addresses, first_name, last_name, image_url });
 
-    return NextResponse.json({ success: true, user: mongoUser });
+    // // Create user in database
+    // const mongoUser = await createUser({
+    //   clerkId: id,
+    //   firstName: `${first_name || ""}`,
+    //   lastName: `${last_name || ""}`,
+    //   email: email_addresses[0].email_address,
+    //   picture: image_url,
+    // });
+
+    return NextResponse.json({ success: true });
   }
 
   if (eventType === "user.deleted") {
