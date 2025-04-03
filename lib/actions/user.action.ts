@@ -16,6 +16,15 @@ export async function createUser(userData: CreateUserParams) {
   }
 }
 
+export async function testUser() {
+  try {
+    dbConnect();
+    console.log("Connected to MongoDB");
+  } catch (error) {
+    console.log("Error connecting to MongoDB", error);
+  }
+}
+
 export async function deleteUser(params: DeleteUserParams) {
   try {
     dbConnect();

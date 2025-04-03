@@ -57,6 +57,7 @@ export async function POST(req: Request) {
   console.log("Webhook payload:", body);
 
   if (eventType === "user.created") {
+    console.log("user.created event received");
     const { id, email_addresses, first_name, last_name, image_url } = evt.data;
 
     // const client = await clerkClient();

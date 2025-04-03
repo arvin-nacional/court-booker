@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import { CalendarDateRangePicker } from "@/components/date-range-picker";
 
 import { CourtBookingCalendar } from "@/components/court-booking-calendar";
@@ -11,6 +11,7 @@ import { RecentBookings } from "@/components/recent-bookings";
 
 import { MultiCourtBookingDialog } from "@/components/multi-court-booking-dialog";
 import { OnboardingDialog } from "@/components/onboarding-dialog";
+import { testUser } from "@/lib/actions/user.action";
 
 // Define the configuration type
 interface FacilityConfig {
@@ -46,6 +47,10 @@ export default function DashboardPage() {
   //   setShowOnboarding(true);
   //   setIsFirstVisit(false);
   // }, []);
+
+  useEffect(() => {
+    testUser();
+  }, []);
 
   // Handler to receive bookings from the calendar component
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
