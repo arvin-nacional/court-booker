@@ -21,7 +21,7 @@ interface FacilityConfig {
   totalCourts: number;
 }
 
-export default function DashboardPage() {
+const Page = () => {
   // Check if this is the first visit
   // const [isFirstVisit, setIsFirstVisit] = useState(true);
   const [showOnboarding, setShowOnboarding] = useState(false);
@@ -177,4 +177,6 @@ export default function DashboardPage() {
       />
     </div>
   );
-}
+};
+
+export default Page;

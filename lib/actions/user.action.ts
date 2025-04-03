@@ -9,7 +9,8 @@ export async function createUser(userData: CreateUserParams) {
     dbConnect();
 
     const newUser = await User.create(userData);
-    return newUser;
+    const stringUser = JSON.stringify(newUser);
+    return stringUser;
   } catch (error) {
     console.log(error);
     throw new Error("Error creating user");
