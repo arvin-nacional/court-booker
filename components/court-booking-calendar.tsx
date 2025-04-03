@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
-import { Calendar } from "@/components/ui/calendar";
+
 import {
   Card,
   CardContent,
@@ -115,9 +115,7 @@ export const CourtBookingCalendar = forwardRef<any, CourtBookingCalendarProps>(
     },
     ref
   ) => {
-    const [selectedDate, setSelectedDate] = useState<Date | undefined>(
-      new Date()
-    );
+    const [selectedDate] = useState<Date | undefined>(new Date());
     const [showBookingDialog, setShowBookingDialog] = useState(false);
     const [selectedCourt, setSelectedCourt] = useState<string | null>(null);
     const [selectedTime, setSelectedTime] = useState<number | null>(null);
@@ -1036,7 +1034,7 @@ export const CourtBookingCalendar = forwardRef<any, CourtBookingCalendarProps>(
                 Choose a date to view availability
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            {/* <CardContent>
               <Calendar
                 mode="single"
                 selected={selectedDate}
@@ -1051,7 +1049,7 @@ export const CourtBookingCalendar = forwardRef<any, CourtBookingCalendarProps>(
                 }}
                 className="rounded-md border"
               />
-            </CardContent>
+            </CardContent> */}
           </Card>
 
           <Card className="md:block hidden">

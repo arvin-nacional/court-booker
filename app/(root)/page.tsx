@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { CalendarDateRangePicker } from "@/components/date-range-picker";
+// import { CalendarDateRangePicker } from "@/components/date-range-picker";
 
 import { CourtBookingCalendar } from "@/components/court-booking-calendar";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookingStats } from "@/components/booking-stats";
 import { RecentBookings } from "@/components/recent-bookings";
@@ -116,7 +116,7 @@ export default function DashboardPage() {
           <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
             Badminton Court Booking
           </h2>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
+          {/* <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
             <CalendarDateRangePicker />
             <Button
               className="w-full sm:w-auto"
@@ -124,7 +124,7 @@ export default function DashboardPage() {
             >
               Book Court
             </Button>
-          </div>
+          </div> */}
         </div>
 
         <Tabs defaultValue="calendar" className="space-y-4">
