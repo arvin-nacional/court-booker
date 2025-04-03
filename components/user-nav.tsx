@@ -19,7 +19,7 @@ export function UserNav() {
   const [user, setUser] = useState<{ name: string; email: string } | null>(
     null
   );
-  const isLoggedIn = !!user;
+
   const [showLoginDialog, setShowLoginDialog] = useState(false);
 
   // Update the login function
