@@ -1,8 +1,9 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
-import { deleteUser } from "@/lib/actions/user.action";
-import { WebhookEvent, clerkClient } from "@clerk/nextjs/server";
+import { createUser } from "@/lib/actions/user.action";
+import { WebhookEvent } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
+import { id } from "date-fns/locale";
 
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET;
@@ -51,7 +52,7 @@ export async function POST(req: Request) {
 
   // Do something with payload
   // For this guide, log payload to console
-  const { id } = evt.data;
+
   const eventType = evt.type;
   console.log(`Received webhook with ID ${id} and event type of ${eventType}`);
   console.log("Webhook payload:", body);
@@ -60,36 +61,26 @@ export async function POST(req: Request) {
     console.log("user.created event received");
     const { id, email_addresses, first_name, last_name, image_url } = evt.data;
 
-    const client = await clerkClient();
-
-    await client.users.updateUserMetadata(id, {
-      publicMetadata: {
-        userType: "user",
-      },
+    // Create user in database
+    const mongoUser = await createUser({
+      clerkId: id,
+      firstName: `${first_name || ""}`,
+      lastName: `${last_name || ""}`,
+      email: email_addresses[0].email_address,
+      picture: image_url,
     });
 
-    console.log({ email_addresses, first_name, last_name, image_url });
-
-    // // Create user in database
-    // const mongoUser = await createUser({
-    //   clerkId: id,
-    //   firstName: `${first_name || ""}`,
-    //   lastName: `${last_name || ""}`,
-    //   email: email_addresses[0].email_address,
-    //   picture: image_url,
-    // });
-
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, user: mongoUser });
   }
 
-  if (eventType === "user.deleted") {
-    const { id } = evt.data;
+  //   if (eventType === "user.deleted") {
+  //     const { id } = evt.data;
 
-    // Delete user in database
-    const deletedUser = await deleteUser({ clerkId: id! });
+  //     // Delete user in database
+  //     const deletedUser = await deleteUser({ clerkId: id! });
 
-    return NextResponse.json({ success: true, user: deletedUser });
-  }
+  //     return NextResponse.json({ success: true, user: deletedUser });
+  //   }
 
   return new Response("Webhook received", { status: 200 });
 }
