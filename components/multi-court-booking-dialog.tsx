@@ -38,8 +38,10 @@ interface MultiCourtBookingDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   date?: Date;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   existingBookings: any[];
   totalCourts: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onAddBookings: (bookings: any[]) => void;
   pricePerHour?: number;
   openingTime?: number;
@@ -203,7 +205,19 @@ export function MultiCourtBookingDialog({
     // Create bookings for each selected court
     const timeNum = Number.parseFloat(time);
     const durationNum = Number.parseFloat(duration);
-    const bookings = [];
+
+    const bookings: {
+      court: string;
+      date: Date;
+      time: number;
+      duration: number;
+      renter: string;
+      paid: boolean;
+      email: string;
+      phone: string;
+      amount: number;
+      recurring: boolean;
+    }[] = [];
 
     for (const court of selectedCourts) {
       const newBooking = {
