@@ -1,7 +1,6 @@
-// @ts-nocheck
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { CalendarDateRangePicker } from "@/components/date-range-picker";
 
 import { CourtBookingCalendar } from "@/components/court-booking-calendar";
@@ -9,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookingStats } from "@/components/booking-stats";
 import { RecentBookings } from "@/components/recent-bookings";
-import { AdminSettings } from "@/components/admin-settings";
 
 import { MultiCourtBookingDialog } from "@/components/multi-court-booking-dialog";
 import { OnboardingDialog } from "@/components/onboarding-dialog";
@@ -24,7 +22,7 @@ interface FacilityConfig {
 
 export default function DashboardPage() {
   // Check if this is the first visit
-  const [isFirstVisit, setIsFirstVisit] = useState(true);
+  // const [isFirstVisit, setIsFirstVisit] = useState(true);
   const [showOnboarding, setShowOnboarding] = useState(false);
 
   // Facility configuration
@@ -35,25 +33,28 @@ export default function DashboardPage() {
     totalCourts: 12,
   });
 
-  const [showAdminSettings, setShowAdminSettings] = useState(false);
+  // const [showAdminSettings, setShowAdminSettings] = useState(false);
   const [showMultiCourtBooking, setShowMultiCourtBooking] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [selectedDate] = useState<Date>(new Date());
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [existingBookings, setExistingBookings] = useState<any[]>([]);
 
-  // Check if this is the first visit when the component mounts
-  useEffect(() => {
-    // In a real app, you would check localStorage or a database
-    // For this demo, we'll just show the onboarding dialog
-    setShowOnboarding(true);
-    setIsFirstVisit(false);
-  }, []);
+  // // Check if this is the first visit when the component mounts
+  // useEffect(() => {
+  //   // In a real app, you would check localStorage or a database
+  //   // For this demo, we'll just show the onboarding dialog
+  //   setShowOnboarding(true);
+  //   setIsFirstVisit(false);
+  // }, []);
 
   // Handler to receive bookings from the calendar component
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleBookingsUpdate = (bookings: any[]) => {
     setExistingBookings(bookings);
   };
 
   // Handler to add multiple bookings
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleAddMultipleBookings = (bookings: any[]) => {
     // Pass the bookings to the calendar component
     if (calendarRef.current) {
@@ -68,6 +69,7 @@ export default function DashboardPage() {
   };
 
   // Create a ref to access the calendar component methods
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const calendarRef = React.useRef<any>(null);
 
   // Convert time string to hours for the calendar component
@@ -125,41 +127,29 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {showAdminSettings ? (
-          <AdminSettings
-            initialTotalCourts={facilityConfig.totalCourts}
-            onTotalCourtsChange={(courts) => {
-              setFacilityConfig({ ...facilityConfig, totalCourts: courts });
-            }}
-            facilityConfig={facilityConfig}
-            onConfigChange={setFacilityConfig}
-            onShowOnboarding={() => setShowOnboarding(true)}
-          />
-        ) : (
-          <Tabs defaultValue="calendar" className="space-y-4">
-            <TabsList className="w-full md:w-auto grid grid-cols-3 md:inline-flex">
-              <TabsTrigger value="calendar">Calendar</TabsTrigger>
-              <TabsTrigger value="bookings">My Bookings</TabsTrigger>
-              <TabsTrigger value="analytics">Analytics</TabsTrigger>
-            </TabsList>
-            <TabsContent value="calendar" className="space-y-4">
-              <CourtBookingCalendar
-                totalCourts={facilityConfig.totalCourts}
-                ref={calendarRef}
-                onBookingsUpdate={handleBookingsUpdate}
-                openingTime={getTimeInHours(facilityConfig.openingTime)}
-                closingTime={getTimeInHours(facilityConfig.closingTime)}
-                pricePerHour={facilityConfig.pricePerHour}
-              />
-            </TabsContent>
-            <TabsContent value="bookings" className="space-y-4">
-              <RecentBookings />
-            </TabsContent>
-            <TabsContent value="analytics" className="space-y-4">
-              <BookingStats totalCourts={facilityConfig.totalCourts} />
-            </TabsContent>
-          </Tabs>
-        )}
+        <Tabs defaultValue="calendar" className="space-y-4">
+          <TabsList className="w-full md:w-auto grid grid-cols-3 md:inline-flex">
+            <TabsTrigger value="calendar">Calendar</TabsTrigger>
+            <TabsTrigger value="bookings">My Bookings</TabsTrigger>
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
+          </TabsList>
+          <TabsContent value="calendar" className="space-y-4">
+            <CourtBookingCalendar
+              totalCourts={facilityConfig.totalCourts}
+              ref={calendarRef}
+              onBookingsUpdate={handleBookingsUpdate}
+              openingTime={getTimeInHours(facilityConfig.openingTime)}
+              closingTime={getTimeInHours(facilityConfig.closingTime)}
+              pricePerHour={facilityConfig.pricePerHour}
+            />
+          </TabsContent>
+          <TabsContent value="bookings" className="space-y-4">
+            <RecentBookings />
+          </TabsContent>
+          <TabsContent value="analytics" className="space-y-4">
+            <BookingStats totalCourts={facilityConfig.totalCourts} />
+          </TabsContent>
+        </Tabs>
       </div>
 
       <MultiCourtBookingDialog

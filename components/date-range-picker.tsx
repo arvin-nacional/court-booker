@@ -43,7 +43,6 @@ export function CalendarDateRangePicker({
             onSelect={setDate}
             initialFocus
           />
-          {/* @ts-ignore */}
         </PopoverContent>
       </Popover>
     </div>

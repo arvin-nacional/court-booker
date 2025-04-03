@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 "use client";
 
 import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
@@ -105,7 +103,7 @@ interface CourtBookingCalendarProps {
   closingTime?: number;
   pricePerHour?: number;
 }
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const CourtBookingCalendar = forwardRef<any, CourtBookingCalendarProps>(
   (
     {
@@ -137,6 +135,7 @@ export const CourtBookingCalendar = forwardRef<any, CourtBookingCalendarProps>(
 
     // Expose methods to parent component
     useImperativeHandle(ref, () => ({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       addMultipleBookings: (bookings: any[]) => {
         handleAddMultipleBookings(bookings);
       },
@@ -299,6 +298,7 @@ export const CourtBookingCalendar = forwardRef<any, CourtBookingCalendarProps>(
     };
 
     // Handle adding multiple bookings at once
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleAddMultipleBookings = (newBookings: any[]) => {
       const baseId = Math.max(...existingBookings.map((b) => b.id), 0) + 1;
       const processedBookings: Booking[] = [];
